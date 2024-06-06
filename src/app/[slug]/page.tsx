@@ -3,27 +3,31 @@ import CustomizeProducts from "@/components/CustomizeProducts";
 import ProductImages from "@/components/ProductImages";
 import { wixClientServer } from "@/lib/wixClientServer";
 import { notFound } from "next/navigation";
-import React from "react";
 
-const SingPage = async ({ params }: { params: { slug: string } }) => {
-  const wicClient = await wixClientServer();
-  const products = await wicClient.products
+
+
+const SinglePage = async ({ params }: { params: { slug: string } }) => {
+  const wixClient = await wixClientServer();
+  const products = await wixClient.products
     .queryProducts()
-    .eq("slug", params.slug || "")
+    .eq("slug", params.slug)
     .find();
 
   if (!products.items[0]) {
     return notFound();
   }
+
   const product = products.items[0];
+
   return (
-    <div className=" px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64 relative flex flex-col lg:flex-row gap-16">
-      <div className=" w-full lg:w-1/2 lg:sticky top-20 h-max">
-        <ProductImages items={product.media?.items} />
+    <div className="px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64 relative flex flex-col lg:flex-row gap-16">
+      <div className="w-full lg:w-1/2 lg:sticky top-20 h-max">
+          <ProductImages items={product.media?.items} />
+  
       </div>
       <div className="w-full lg:w-1/2 flex flex-col gap-6">
-        <h1 className="text-4xl font-medium">{product.name}</h1>
-        <p className="text-gray-500">{product.description}</p>
+        <h1 className="text-4xl font-medium">{product.name ?? "Unnamed Product"}</h1>
+        <p className="text-gray-500">{product.description ?? "No description available."}</p>
         <div className="h-[2px] bg-gray-100" />
         {product.price?.price === product.price?.discountedPrice ? (
           <h2 className="text-2xl font-medium ">${product.price?.price}</h2>
@@ -37,27 +41,30 @@ const SingPage = async ({ params }: { params: { slug: string } }) => {
             </h2>
           </div>
         )}
-
         <div className="h-[2px] bg-gray-100" />
         {product.variants && product.productOptions ? (
           <CustomizeProducts
-            productId={product._id || ""}
+            productId={product._id ?? ""}
             variants={product.variants}
             productOptions={product.productOptions}
           />
         ) : (
-          <Add productId={product._id || ""} variantId="00000000-0000-0000-0000-000000000000" stockNumber={product.stock?.quantity || 0}/>
+          <Add
+            productId={product._id ?? ""}
+            variantId="00000000-0000-0000-0000-000000000000"
+            stockNumber={product.stock?.quantity ?? 0}
+          />
         )}
         <div className="h-[2px] bg-gray-100" />
-        {product.additionalInfoSections?.map((section: any) => (
+        {product.additionalInfoSections?.map((section) => (
           <div key={section.title} className="text-sm">
             <h4 className="font-medium mb-4">{section.title}</h4>
             <p>{section.description}</p>
           </div>
-        ))}
+        )) ?? null}
       </div>
     </div>
   );
 };
 
-export default SingPage;
+export default SinglePage;

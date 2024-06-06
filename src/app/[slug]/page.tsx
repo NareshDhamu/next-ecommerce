@@ -4,30 +4,33 @@ import ProductImages from "@/components/ProductImages";
 import { wixClientServer } from "@/lib/wixClientServer";
 import { notFound } from "next/navigation";
 
-const SinglePage = async ({ params }: { params: { slug: string } }) => {
-  let product = null;
-  try {
-    const wixClient = await wixClientServer();
-    const products = await wixClient.products
-      .queryProducts()
-      .eq("slug", params.slug)
-      .find();
+interface Product {
+  _id: string;
+  name: string;
+  description?: string;
+  price?: {
+    price: number;
+    discountedPrice?: number;
+  };
+  media?: {
+    items: string[];
+  };
+  variants?: any[]; // adjust the type according to your data structure
+  productOptions?: any[]; // adjust the type according to your data structure
+  stock?: {
+    quantity: number;
+  };
+  additionalInfoSections?: {
+    title: string;
+    description: string;
+  }[];
+}
 
-    if (!products.items[0]) {
-      return notFound();
-    }
-
-    product = products.items[0];
-  } catch (error) {
-    console.error("Error fetching product:", error);
-    // Handle error gracefully, show error message, or fallback UI
-    return <div>Error fetching product. Please try again later.</div>;
-  }
-
+const SinglePage = ({ product }: { product: Product }) => {
   return (
     <div className="px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64 relative flex flex-col lg:flex-row gap-16">
       <div className="w-full lg:w-1/2 lg:sticky top-20 h-max">
-       {product?.media && <ProductImages items={product.media.items} />}
+        {product?.media && <ProductImages items={product.media.items} />}
       </div>
       <div className="w-full lg:w-1/2 flex flex-col gap-6">
         <h1 className="text-4xl font-medium">{product?.name ?? "Unnamed Product"}</h1>
@@ -74,6 +77,33 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
     </div>
   );
 };
+
+export async function getServerSideProps({ params }: { params: { slug: string } }) {
+  let product: Product | null = null;
+  try {
+    const wixClient = await wixClientServer();
+    const products = await wixClient.products
+      .queryProducts()
+      .eq("slug", params.slug)
+      .find();
+
+    if (!products.items[0]) {
+      return { notFound: true };
+    }
+
+    product = products.items[0];
+  } catch (error) {
+    console.error("Error fetching product:", error);
+    // Handle error gracefully, show error message, or fallback UI
+    product = null;
+  }
+
+  return {
+    props: {
+      product,
+    },
+  };
+}
 
 export default SinglePage;
 

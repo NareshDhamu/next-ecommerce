@@ -2,18 +2,7 @@
 import Image from "next/image";
 import React from "react";
 
-interface Product {
-  _id: string;
-  image?: {
-    url: string;
-  };
-}
-
-interface ProductImagesProps {
-  items: Product[];
-}
-
-const ProductImages: React.FC<ProductImagesProps> = ({ items }) => {
+const ProductImages = ({ items }: { items: any}) => {
   const [index, setIndex] = React.useState(0);
 
   if (items.length === 0) {
@@ -36,7 +25,7 @@ const ProductImages: React.FC<ProductImagesProps> = ({ items }) => {
         />
       </div>
       <div className="flex justify-between gap-5 mt-8">
-        {items.map((item, i) => (
+        {items.map((item:any , i:number) => (
           <div
             key={item._id}
             className="w-1/4 relative gap-4 h-28 cursor-pointer"

@@ -34,7 +34,7 @@ const Navbar = () => {
         </div>
         {/* right */}
         <div className="w-2/3 flex items-center justify-between gap-8">
-          <SearchBar />
+          <SearchBar searchParams={""}  />
           <NavIcons />
         </div>
       </div>

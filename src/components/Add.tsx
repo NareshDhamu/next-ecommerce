@@ -1,14 +1,17 @@
 "use client";
 import React from "react";
 
-const Add = () => {
+const Add = ({productId, variantId, stockNumber}:{
+  productId: string,
+  variantId: string,
+  stockNumber: number
+}) => {
   const [Quantity, setQuantity] = React.useState(1);
-  const stock = 5;
   const handleQuantity = (type: "i" | "d") => {
     if (type === "d" && Quantity > 1) {
       setQuantity((prev) => prev - 1);
     }
-    if (type === "i" && Quantity < stock) {
+    if (type === "i" && Quantity < stockNumber) {
       setQuantity((prev) => prev + 1);
     }
   };
@@ -33,7 +36,7 @@ const Add = () => {
             </button>
           </div>
           <div className="">
-            Only <span className="text-orange-500">{stock} item</span> left! <br />{" "}
+            Only <span className="text-orange-500">{stockNumber} item</span> left! <br />{" "}
             {"Don't"} miss it
           </div>
         </div>

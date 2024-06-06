@@ -6,20 +6,35 @@ import React from "react";
 import DOMPurify from "isomorphic-dompurify";
 const PRODUCT_PER_PAGE = 20;
 const ProductList = async ({
-  catecgoryId,
+  categoryId,
   limit,
-  seachParams,
+  searchParams,
 }: {
-  catecgoryId: string;
+  categoryId: string;
   limit?: number;
-  seachParams?: any;
+  searchParams?: any;
 }) => {
-  const wicClient = await wixClientServer();
-  const res = await wicClient.products
-    .queryProducts()
-    .eq("collectionIds", catecgoryId || "")
-    .limit(limit || PRODUCT_PER_PAGE)
-    .find();
+  const wixClient = await wixClientServer();
+  const productQuery = wixClient.products
+  .queryProducts()
+  .startsWith("name", searchParams?.name || "")
+  .eq("collectionIds", categoryId || "")
+  .hasSome("productType", [searchParams?.type || "physical", "digital"])
+  .gt("priceData.price", searchParams?.min || 0)
+  .lt("priceData.price", searchParams?.max || 999999)
+  .limit(limit || PRODUCT_PER_PAGE);
+
+if (searchParams?.sort) {
+  const [sortBy, sortType] = searchParams.sort.split(" ");
+  if (sortType === "asc") {
+    productQuery.ascending(sortBy);
+  } else if (sortType === "desc") {
+    productQuery.descending(sortBy);
+  }
+}
+
+const res = await productQuery.find();
+
   return (
     <div className="flex gap-x-8 gap-y-16 justify-between  flex-wrap mt-12">
       {res.items.map((product: products.Product) => (
@@ -48,7 +63,9 @@ const ProductList = async ({
           </div>
           <div className="flex justify-between">
             <span className="font-medium">{product.name}</span>
-            <span className="font-semibold">${product.price?.discountedPrice}</span>
+            <span className="font-semibold">
+              ${product.price?.discountedPrice}
+            </span>
           </div>
           {product.additionalInfoSections && (
             <div

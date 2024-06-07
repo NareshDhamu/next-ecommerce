@@ -2,10 +2,11 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect } from "react";
 import CartModal from "./CartModal";
 import Cookies from "js-cookie";
 import { useWixClient } from "@/hooks/useWixclient";
+import { useCartStore } from "@/hooks/useCartStore";
 // import { useWixClient } from "@/hooks/useWixclient";
 
 const NavIcons = () => {
@@ -19,7 +20,7 @@ const NavIcons = () => {
   const handleProfile = () => {
     if (!isLoggedIn) {
       router.push("/login");
-    }else{
+    } else {
       setIsProfileOpen((prev) => !prev);
     }
   };
@@ -44,6 +45,12 @@ const NavIcons = () => {
     setIsProfileOpen(false);
     router.push(logoutUrl);
   };
+
+  const { cart, counter, getCart } = useCartStore();
+  useEffect(() => {
+    getCart(wixClient);
+  }, [wixClient, getCart]);
+
   return (
     <div className="flex items-center gap-4 xl:gap-6 relative">
       <Image
@@ -79,8 +86,8 @@ const NavIcons = () => {
           className="cursor-pointer"
           onClick={() => setIsCartOpen((prev) => !prev)}
         />
-        <div className="absolute -top-4 -right-4 w-6 h-6 bg-narsa rounded-full text-white text-sm flex items-center justify-center">
-          2
+        <div className="absolute -top-[15.5px] -right-3 w-5 h-5 bg-narsa rounded-full text-white text-xs  flex items-center justify-center">
+          {counter}
         </div>
       </div>
       {isCartOpen && <CartModal />}

@@ -16,10 +16,10 @@ const LoginPage = () => {
   const router = useRouter();
 
   const isLoggedIn = wixClient.auth.loggedIn();
-  console.log(isLoggedIn);
-  if(isLoggedIn){
-    router.push("/")
-    router.refresh()
+  // console.log(isLoggedIn);
+  if (isLoggedIn) {
+    router.push("/");
+    router.refresh();
   }
   const [mode, setMode] = useState(MODE.LOGIN);
   const [username, setUsername] = useState("");
@@ -73,7 +73,7 @@ const LoginPage = () => {
             email,
             pathName
           );
-          setMessage("Password reset email sent!");
+          setMessage("Password reset email sent. Please check your email.");
           break;
         case MODE.EMAIL_VERIFICATION:
           response = await wixClient.auth.processVerification({
@@ -84,20 +84,38 @@ const LoginPage = () => {
         default:
           break;
       }
-      console.log(response);
+      // console.log(response);
       switch (response?.loginState) {
         case LoginState.SUCCESS:
           setMessage("Successful! You are being redirected.");
           const tokens = await wixClient.auth.getMemberTokensForDirectLogin(
             response.data.sessionToken!
           );
-          console.log(tokens);
+          // console.log(tokens);
           Cookies.set("refreshToken", JSON.stringify(tokens.refreshToken), {
             expires: 2,
           });
           wixClient.auth.setTokens(tokens);
           router.push("/");
           break;
+        case LoginState.FAILURE:
+          if (
+            response.errorCode === "invalidEmail" ||
+            response.errorCode === "invalidPassword"
+          ) {
+            setError("Invalid email or password");
+          } else if (response.errorCode === "emailAlreadyExists") {
+            setError("Email already exists");
+          } else if (response.errorCode === "resetPassword") {
+            setError("You need to reset your password");
+          } else {
+            setError("Something went wrong.");
+          }
+
+        case LoginState.EMAIL_VERIFICATION_REQUIRED:
+          setMode(MODE.EMAIL_VERIFICATION);
+        case LoginState.OWNER_APPROVAL_REQUIRED:
+          setMessage("Your account is pending approval");
         default:
           break;
       }

@@ -4,6 +4,8 @@ import { products, collections } from "@wix/stores";
 import Cookies from "js-cookie";
 import { createContext, ReactNode } from "react";
 import { currentCart } from "@wix/ecom";
+import { redirects } from "@wix/redirects";
+
 let refreshToken;
 const refreshTokenString = Cookies.get("refreshToken") || "{}";
 
@@ -18,7 +20,8 @@ const wixClient = createClient({
   modules: {
     products,
     collections,
-    currentCart
+    currentCart,
+    redirects,
   },
   auth: OAuthStrategy({
     clientId: "658a363b-1ab1-4c1e-b3e3-bcf935fb9c72",

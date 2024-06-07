@@ -66,6 +66,7 @@ const CustomizeProducts = ({
 
               return option.name === "Color" ? (
                 <li
+                key={choice.description}
                   className="w-8 h-8 rounded-full ring-1 ring-gray-300 cursor-pointer relative bg-red-500"
                   style={{
                     backgroundColor: choice.value,
@@ -82,6 +83,7 @@ const CustomizeProducts = ({
                 </li>
               ) : (
                 <li
+                key={choice.description}
                   className="ring-1 ring-narsa text-narsa rounded-md py-1 px-4 text-sm cursor-pointer"
                   style={{
                     cursor: disabled ? "not-allowed" : "pointer",

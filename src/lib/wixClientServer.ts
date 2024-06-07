@@ -1,7 +1,7 @@
 import { OAuthStrategy, createClient } from "@wix/sdk";
 import { products, collections } from "@wix/stores";
 import { cookies } from "next/headers";
-
+import { members } from "@wix/members";
 export const wixClientServer = async () => {
   let refreshToken;
   try {
@@ -13,6 +13,7 @@ export const wixClientServer = async () => {
     modules: {
       products,
       collections,
+      members,
     },
     auth: OAuthStrategy({
       clientId: "658a363b-1ab1-4c1e-b3e3-bcf935fb9c72",

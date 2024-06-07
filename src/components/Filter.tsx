@@ -94,7 +94,6 @@ export default Filter;
 
 //     const {name, value} = e.target
 //     const params = new URLSearchParams(searchParams)
-//     console.log(name, value)
 //     params.set(name, value)
 //     replace(`${pathName}?${params.toString()}`)
 //   };

@@ -1,7 +1,7 @@
 import { currentCart } from "@wix/ecom";
 import { WixClient } from "@/context/wixContext";
 import { create } from "zustand";
-
+import { Cart } from '@/types';
 type CartState = {
   cart: currentCart.Cart;
   isLoading: boolean;
@@ -21,12 +21,16 @@ export const useCartStore = create<CartState>((set) => ({
   isLoading: false,
   counter: 0,
   getCart: async (wixClient) => {
+   try {
     const cart = await wixClient.currentCart.getCurrentCart();
     set({
       cart: cart || [],
       isLoading: false,
       counter: cart?.lineItems.length || 0,
     });
+   } catch (error) {
+    set(prev=>({...prev, isLoading: false}))
+   }
   },
   addItem: async (wixClient, productId, variantId, quantity) => {
     set((state) => ({ ...state, isLoading: true }));

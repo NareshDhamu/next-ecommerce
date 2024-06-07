@@ -3,7 +3,6 @@ import Image from "next/image";
 import React from "react";
 import { useRouter } from "next/navigation";
 const SearchBar = ({searchParams}:{searchParams:any}) => {
-  // console.log(searchParams)
   const router = useRouter();
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

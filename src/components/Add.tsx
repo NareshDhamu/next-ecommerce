@@ -1,10 +1,14 @@
 "use client";
 import React from "react";
 
-const Add = ({productId, variantId, stockNumber}:{
-  productId: string,
-  variantId: string,
-  stockNumber: number
+const Add = ({
+  productId,
+  variantId,
+  stockNumber,
+}: {
+  productId: string;
+  variantId: string;
+  stockNumber: number;
 }) => {
   const [Quantity, setQuantity] = React.useState(1);
   const handleQuantity = (type: "i" | "d") => {
@@ -35,10 +39,14 @@ const Add = ({productId, variantId, stockNumber}:{
               +
             </button>
           </div>
-          <div className="">
-            Only <span className="text-orange-500">{stockNumber} item</span> left! <br />{" "}
-            {"Don't"} miss it
-          </div>
+          {stockNumber < 1 ? (
+            <div className=" text-sm text-gray-500">Product Out of Stock</div>
+          ) : (
+            <div className="">
+              Only <span className="text-orange-500">{stockNumber} item</span>{" "}
+              left! <br /> {"Don't"} miss it
+            </div>
+          )}
         </div>
         <button className="w-full mt-5 sm:mt-0 sm:w-36 text-sm rounded-3xl ring-1 ring-narsa py-2 px-4 hover:bg-narsa hover:text-white disabled:cursor-not-allowed disabled:bg-pink-200 disabled:text-white  disabled:ring-none">
           Add Cart

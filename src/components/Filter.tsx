@@ -5,16 +5,15 @@ import React from "react";
 const Filter = () => {
   const pathName = usePathname();
   const searchParams = useSearchParams();
-  const router = useRouter();
+  const {replace} = useRouter();
 
   const handleFilterChange = (
     e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>
   ) => {
     const { name, value } = e.target;
     const params = new URLSearchParams(searchParams);
-    console.log(name, value);
     params.set(name, value);
-    router.replace(`${pathName}?${params.toString()}`);
+    replace(`${pathName}?${params.toString()}`);
   };
 
   return (

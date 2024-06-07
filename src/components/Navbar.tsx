@@ -3,8 +3,8 @@ import React from "react";
 import Menu from "./Menu";
 import Image from "next/image";
 import SearchBar from "./SearchBar";
-import NavIcons from "./Navicons";
-
+import dynamic from "next/dynamic";
+const NavIcons = dynamic(() => import("./Navicons"), { ssr: false });
 const Navbar = () => {
   return (
    <div className="sticky top-0 bg-white z-20">

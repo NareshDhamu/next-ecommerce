@@ -4,12 +4,10 @@ import { products, collections } from "@wix/stores";
 import Cookies from "js-cookie";
 import { createContext, ReactNode } from "react";
 
-
 let refreshToken;
 const refreshTokenString = Cookies.get("refreshToken") || "{}";
 
 try {
-
   refreshToken = JSON.parse(refreshTokenString);
 } catch (error) {
   // console.error("Error parsing refresh token:", error);
@@ -33,7 +31,11 @@ const wixClient = createClient({
 export type WixClient = typeof wixClient;
 export const WixClientContext = createContext<WixClient>(wixClient);
 
-export const WixClientContextProvider = ({ children, }: { children: ReactNode }) => {
+export const WixClientContextProvider = ({
+  children,
+}: {
+  children: ReactNode;
+}) => {
   return (
     <WixClientContext.Provider value={wixClient}>
       {children}

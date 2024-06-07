@@ -3,6 +3,7 @@
 import { WixClientContext } from "@/context/wixContext";
 import { useContext } from "react";
 
-export const useWixclient = () => {
+export const useWixClient = () => {
   const wixClient = useContext(WixClientContext);
+  return wixClient;
 };

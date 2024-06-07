@@ -19,6 +19,7 @@ const LoginPage = () => {
   console.log(isLoggedIn);
   if(isLoggedIn){
     router.push("/")
+    router.refresh()
   }
   const [mode, setMode] = useState(MODE.LOGIN);
   const [username, setUsername] = useState("");

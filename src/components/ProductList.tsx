@@ -41,7 +41,9 @@ const ProductList = async ({
   }
 
   const res = await productQuery.find();
-
+  function formatINR(x: number): string {
+    return x.toLocaleString("en-IN");
+  }
   return (
     <div className="flex gap-x-8 gap-y-16 justify-between  flex-wrap mt-12">
       {res.items.map((product: products.Product) => (
@@ -85,7 +87,7 @@ const ProductList = async ({
           )}
           <div className="flex justify-between items-center">
           <span className="font-semibold">
-            ₹{product.price?.discountedPrice}
+            ₹{formatINR(product.price?.discountedPrice || 0)}
           </span>
 
           <button className="rounded-2xl ring-1 text-narsa py-2 px-3 text-xs hover:bg-narsa hover:text-white w-max">

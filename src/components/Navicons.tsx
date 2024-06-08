@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/router"; // Change from "next/navigation"
+import { useRouter } from "next/navigation"; // Change from "next/navigation"
 import React, { useEffect, useState } from "react";
 import CartModal from "./CartModal";
 import Cookies from "js-cookie";

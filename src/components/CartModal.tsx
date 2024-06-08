@@ -31,9 +31,8 @@ const CartModal = () => {
       console.error(error);
     }
   };
-  // console.log(cart);
   //@ts-ignore
- const subtotal = cart.subtotal.amount;
+ const subtotal = cart.subtotal?.amount;
 
 
 

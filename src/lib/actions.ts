@@ -23,7 +23,6 @@ export const updateUser = async (formData: FormData) => {
             nickname: username || undefined,
         }
     });
-    // console.log(response);
   } catch (error) {
     console.error(error);
   }

@@ -55,14 +55,14 @@ const Slider = () => {
     return () => clearInterval(interval);
   }, []);
   return (
-    <div className="h-screen overflow-hidden">
+    <div className="h-[calc(100vh-80px)] overflow-hidden">
       <div
-        className="w-max h-full flex transition-all ease-in-out duration-1000"
+        className="w-max h-[calc(100vh-135px)] md:h-full flex transition-all ease-in-out duration-1000"
         style={{ transform: `translateX(-${current * 100}vw)` }}
       >
         {slides.map((slide) => (
           <div
-            className={`${slide.bg} w-screen h-full flex flex-col gap-16 xl:flex-row`}
+            className={`${slide.bg} w-screen h-full flex flex-col gap-10 xl:flex-row`}
             key={slide.id}
           >
             <div className="h-1/2 xl:h-full xl:w-1/2 flex-col justify-center flex items-center gap-8 2xl:gap-12 text-center ">

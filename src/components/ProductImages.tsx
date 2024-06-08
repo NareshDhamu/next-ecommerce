@@ -15,12 +15,12 @@ const ProductImages = ({ items }: { items: any}) => {
 
   return (
     <div>
-      <div className="h-[400px] relative">
+      <div className="h-[500px] relative">
         <Image
           src={items[index].image?.url || ''}
           alt=""
           fill
-          className="object-cover rounded-md"
+          className="object-cover rounded-md p-5"
           sizes="50vw"
         />
       </div>

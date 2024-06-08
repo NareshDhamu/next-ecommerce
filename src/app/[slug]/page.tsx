@@ -22,7 +22,6 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
     `https://api.fera.ai/v3/public/reviews?product.id=${product._id}&public_key=pk_13dd61d0cc4708bba3896538467c8f13a2d43d082e1f9617815da4a98fd027cf`
   );
 
-  console.log(product.description);
   const reviews = await reviewRes.json();
   function removeHtmlTags(description: string) {
     return htmlToText(description);

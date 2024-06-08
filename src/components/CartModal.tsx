@@ -32,6 +32,7 @@ const CartModal = () => {
     }
   };
   // console.log(cart);
+  //@ts-ignore
  const subtotal = cart.subtotal.amount;
 
 

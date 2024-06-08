@@ -62,27 +62,27 @@ const CartModal = () => {
                     />
                   </Link>
                 )}
-                <div className="flex flex-col justify-between w-full">
-                  <div>
+                <div className="flex flex-col justify-between w-full text-xs">
+                  <div className="">
                     <div className="flex items-center justify-between gap-8">
-                      <h3 className="font-semibold">
-                        {item.productName?.original}
+                      <h3 className="font-semibold w-36">
+                        {item.productName?.original?.slice(0, 20)}
                       </h3>
                       <div className="p-1 bg-gray-50 rounded-sm flex items-center gap-2">
                         {item.quantity && item.quantity > 1 && (
-                          <div className="text-xs text-green-500">
+                          <div className=" text-green-500">
                             {item.quantity} x
                           </div>
                         )}
                         ${item.price?.amount}
                       </div>
                     </div>
-                    <div className="text-sm text-gray-500">
+                    <div className="text-xs text-gray-500">
                       {item.availability?.status}
                     </div>
                   </div>
                   <div>
-                    <div className="flex justify-between text-sm">
+                    <div className="flex justify-between text-xs">
                       <span className="text-gray-500">
                         Qty. {item.quantity}
                       </span>

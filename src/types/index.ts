@@ -6,7 +6,7 @@ export interface Subtotal {
   }
   
   export interface CartTotals {
-    subtotal: Subtotal;
+    subtotal: any;
   }
   
   export interface LineItem {

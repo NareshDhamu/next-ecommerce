@@ -2,6 +2,7 @@ import Add from "@/components/Add";
 import CustomizeProducts from "@/components/CustomizeProducts";
 import ProductImages from "@/components/ProductImages";
 import { wixClientServer } from "@/lib/wixClientServer";
+import { htmlToText } from "html-to-text";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
@@ -20,7 +21,12 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
   const reviewRes = await fetch(
     `https://api.fera.ai/v3/public/reviews?product.id=${product._id}&public_key=pk_13dd61d0cc4708bba3896538467c8f13a2d43d082e1f9617815da4a98fd027cf`
   );
+
+  console.log(product.description);
   const reviews = await reviewRes.json();
+  function removeHtmlTags(description: string) {
+    return htmlToText(description);
+  }
   return (
     <div className="px-4 md:px-8 lg:px-16 xl:px-32 2xl:px-64 relative flex flex-col lg:flex-row gap-16">
       <div className="w-full lg:w-1/2 lg:sticky top-20 h-max">
@@ -30,8 +36,11 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
         <h1 className="text-4xl font-medium">
           {product.name ?? "Unnamed Product"}
         </h1>
+
         <p className="text-gray-500">
-          {product.description ?? "No description available."}
+          {product.description
+            ? removeHtmlTags(product.description)
+            : "No description available."}
         </p>
         <div className="h-[2px] bg-gray-100" />
         {product.price?.price === product.price?.discountedPrice ? (
@@ -65,7 +74,8 @@ const SinglePage = async ({ params }: { params: { slug: string } }) => {
         {product.additionalInfoSections?.map((section) => (
           <div key={section.title} className="text-sm">
             <h4 className="font-medium mb-4">{section.title}</h4>
-            <p>{section.description}</p>
+            <p>{section.description && removeHtmlTags(section.description)}</p>
+
           </div>
         ))}
         <div className="h-[2px] bg-gray-100" />

@@ -70,9 +70,6 @@ const ProductList = async ({
           </div>
           <div className="flex justify-between">
             <span className="font-medium">{product.name}</span>
-            <span className="font-semibold">
-              ${product.price?.discountedPrice}
-            </span>
           </div>
           {product.additionalInfoSections && (
             <div
@@ -86,10 +83,15 @@ const ProductList = async ({
               }}
             ></div>
           )}
+          <div className="flex justify-between items-center">
+          <span className="font-semibold">
+            ₹{product.price?.discountedPrice}
+          </span>
 
           <button className="rounded-2xl ring-1 text-narsa py-2 px-3 text-xs hover:bg-narsa hover:text-white w-max">
             Add to Cart
           </button>
+          </div>
         </Link>
       ))}
       {searchParams?.cat || searchParams?.name ? (
